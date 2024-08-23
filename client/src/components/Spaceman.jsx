@@ -9,12 +9,37 @@ const Spaceman = ({ scale, position }) => {
   const { scene, animations } = useGLTF(spacemanScene);
   const { actions } = useAnimations(animations, spacemanRef);
 
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
   useEffect(() => {
     actions["Idle"].play();
   }, [actions]);
 
+  useEffect(() => {
+    const handleMouseMove = (event) => {
+      const { clientX, clientY } = event;
+      const { innerWidth, innerHeight } = window;
+      const x = (clientX / innerWidth) * 2 - 1;
+      const y = -(clientY / innerHeight) * 2 + 1;
+      setMousePosition({ x, y });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (spacemanRef.current) {
+      spacemanRef.current.rotation.y = mousePosition.x * Math.PI;
+      spacemanRef.current.rotation.x = mousePosition.y * Math.PI;
+    }
+  }, [mousePosition]);
+
   return (
-    <mesh ref={spacemanRef} position={position} scale={scale} rotation={[0, 2.2, 0]}>
+    <mesh ref={spacemanRef} position={position} scale={scale}>
       <primitive object={scene} />
     </mesh>
   );
