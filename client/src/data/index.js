@@ -2,6 +2,9 @@ import {
   algorithms,
   devnotes,
   oscs,
+  elcano,
+  galileo,
+  ticketByte,
 } from "../assets";
 
 export const navLinks = [
@@ -73,7 +76,7 @@ const portfolio = [
     name: "ticketByte",
     description:
       "A blockchain-based platform for buying and managing concert tickets on the Hedera network, offering secure, transparent transactions, easy revenue claiming, and ticket freezing to prevent ticket scalping.",
-    image: ticketbyte,
+    image: ticketByte,
   },
 ];
 
